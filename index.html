@@ -1,3 +1,6 @@
+from bash_tool import bash
+
+# Create the complete integrated HTML file
 html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,6 +54,7 @@ html_content = """<!DOCTYPE html>
             padding: 20px;
             background: #f8f9fa;
             border-bottom: 2px solid #e9ecef;
+            flex-wrap: wrap;
         }
         
         .exam-btn {
@@ -142,63 +146,11 @@ html_content = """<!DOCTYPE html>
         
         .diagram {
             margin: 20px 0;
-            padding: 20px;
-            background: white;
+            padding: 30px;
+            background: #2c3e50;
             border-radius: 8px;
             text-align: center;
-        }
-        
-        .diagram img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .flowchart {
-            display: inline-block;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            padding: 20px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-        }
-        
-        .flowchart-box {
-            border: 2px solid #2c3e50;
-            padding: 10px 20px;
-            margin: 10px auto;
-            display: inline-block;
-            border-radius: 5px;
-        }
-        
-        .flowchart-diamond {
-            border: 2px solid #2c3e50;
-            padding: 10px 20px;
-            margin: 10px auto;
-            display: inline-block;
-            transform: rotate(45deg);
-            position: relative;
-        }
-        
-        .flowchart-diamond-text {
-            transform: rotate(-45deg);
-        }
-        
-        .flowchart-parallelogram {
-            border: 2px solid #2c3e50;
-            padding: 10px 20px;
-            margin: 10px auto;
-            display: inline-block;
-            transform: skew(-20deg);
-        }
-        
-        .flowchart-parallelogram-text {
-            transform: skew(20deg);
-        }
-        
-        .flowchart-arrow {
-            margin: 5px 0;
-            font-size: 20px;
+            color: white;
         }
         
         .table-container {
@@ -303,6 +255,90 @@ html_content = """<!DOCTYPE html>
             border-radius: 4px;
         }
         
+        .preamble-section {
+            line-height: 1.8;
+        }
+        
+        .preamble-section h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .preamble-section h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+        
+        .preamble-section h4 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .preamble-section ul, .preamble-section ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .preamble-section li {
+            margin-bottom: 8px;
+        }
+        
+        .preamble-section p {
+            margin-bottom: 12px;
+        }
+        
+        .concept-box {
+            background: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .concept-box h4 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .key-term {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .key-term strong {
+            color: #856404;
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .comparison-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -315,6 +351,10 @@ html_content = """<!DOCTYPE html>
             .exam-btn {
                 width: 100%;
             }
+            
+            .comparison-table {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -322,17 +362,535 @@ html_content = """<!DOCTYPE html>
     <div class="container">
         <header>
             <h1>IB Computer Science SL</h1>
-            <p>Paper 1 - Section B Study Guide</p>
+            <p>Paper 1 - Comprehensive Study Guide</p>
         </header>
         
         <div class="exam-selector">
-            <button class="exam-btn active" onclick="showExam('may2016')">May 2016</button>
+            <button class="exam-btn active" onclick="showExam('preamble')">📚 Key Concepts</button>
+            <button class="exam-btn" onclick="showExam('may2016')">May 2016</button>
             <button class="exam-btn" onclick="showExam('nov2016')">November 2016</button>
         </div>
         
         <div class="content">
+            <!-- PREAMBLE SECTION -->
+            <div id="preamble" class="exam-section preamble-section active">
+                <h2>🎯 IB Computer Science Core Concepts</h2>
+                <p>This section covers essential concepts that appear throughout Paper 1. Understanding these topics is crucial for both Section A and Section B questions.</p>
+                
+                <h2>1. System Fundamentals</h2>
+                
+                <h3>1.1 Legacy Systems</h3>
+                <div class="concept-box">
+                    <h4>What is a Legacy System?</h4>
+                    <p>A legacy system is an outdated computer system, application, or technology that continues to be used, typically because it still functions for the users' needs, even though newer alternatives are available.</p>
+                </div>
+                
+                <div class="key-term">
+                    <strong>Key Problems with Legacy Systems:</strong>
+                    <ul>
+                        <li>Uses old technology and programming languages</li>
+                        <li>Hard to understand due to poor/missing documentation</li>
+                        <li>Expensive to change or evolve</li>
+                        <li>Compatibility issues with modern systems</li>
+                        <li>Difficult to recruit staff familiar with old languages/systems</li>
+                        <li>Security vulnerabilities</li>
+                        <li>Database may contain inconsistencies/redundancies</li>
+                    </ul>
+                </div>
+                
+                <h3>1.2 Testing & Implementation</h3>
+                
+                <h4>User Acceptance Testing (UAT)</h4>
+                <div class="concept-box">
+                    <p><strong>Definition:</strong> A system or partially functional prototype given to users to test for functionality or to gain feedback on functions or the user interface.</p>
+                    <p><strong>Purpose:</strong> Ensures the system meets user needs before full deployment.</p>
+                </div>
+                
+                <h4>Prototyping</h4>
+                <div class="key-term">
+                    <strong>Why Create Prototypes?</strong>
+                    <ul>
+                        <li>Ensure all essential functions/operations are present</li>
+                        <li>Verify the system meets user needs</li>
+                        <li>Speed up development process</li>
+                        <li>Get user feedback early to refine the product</li>
+                        <li>Identify problems before full development</li>
+                    </ul>
+                </div>
+                
+                <h4>Implementation Methods</h4>
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Parallel Running</h4>
+                        <ul>
+                            <li><strong>What:</strong> Old and new systems run simultaneously</li>
+                            <li><strong>Advantage:</strong> Safe validation; can revert if issues arise</li>
+                            <li><strong>Disadvantage:</strong> Expensive; requires maintaining both systems</li>
+                            <li><strong>Economic aspect:</strong> Need more staff and resources</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Direct Changeover</h4>
+                        <ul>
+                            <li><strong>What:</strong> Switch from old to new system immediately</li>
+                            <li><strong>Advantage:</strong> Quick and cheap</li>
+                            <li><strong>Disadvantage:</strong> Risky; no fallback if failure occurs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>1.3 Data Migration</h3>
+                <div class="concept-box">
+                    <h4>Common Problems:</h4>
+                    <ul>
+                        <li><strong>Data Loss/Corruption:</strong> Data can be corrupted or lost during transfer via network, cables, or physical media</li>
+                        <li><strong>Incompatibility:</strong> Different data formats require translation, causing delays and potential errors</li>
+                        <li><strong>Downtime:</strong> Business operations may be disrupted during migration</li>
+                        <li><strong>Validation:</strong> Need to verify all data transferred correctly</li>
+                    </ul>
+                </div>
+                
+                <h2>2. Computer Organization</h2>
+                
+                <h3>2.1 CPU Components</h3>
+                
+                <h4>Control Unit (CU)</h4>
+                <div class="key-term">
+                    <strong>Functions:</strong>
+                    <ul>
+                        <li>Obtains data/instructions from memory</li>
+                        <li>Interprets/decodes them into commands/steps/signals</li>
+                        <li>Controls transfer of data and instructions among CPU units</li>
+                        <li>Manages/coordinates all units of the computer</li>
+                    </ul>
+                </div>
+                
+                <h4>Cache Memory</h4>
+                <div class="concept-box">
+                    <h4>Purpose & Function</h4>
+                    <p><strong>Location:</strong> Between RAM and processor (or incorporated on chip)</p>
+                    <p><strong>Purpose:</strong> Save time in accessing RAM</p>
+                    <p><strong>How it works:</strong> Holds recently/frequently used data and instructions in faster memory closer to CPU</p>
+                    <p><strong>Result:</strong> Faster execution of programs and data fetching</p>
+                </div>
+                
+                <h3>2.2 Number Systems</h3>
+                
+                <h4>Binary and Hexadecimal Conversion</h4>
+                <div class="key-term">
+                    <strong>Example: Hexadecimal 3B to Binary (8-bit)</strong>
+                    <ul>
+                        <li>3 in hex = 0011 in binary</li>
+                        <li>B in hex = 1011 in binary</li>
+                        <li>Combined: 00111011 (8 bits)</li>
+                    </ul>
+                </div>
+                
+                <table>
+                    <tr>
+                        <th>Hex</th>
+                        <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+                        <th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+                    </tr>
+                    <tr>
+                        <th>Decimal</th>
+                        <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+                        <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
+                    </tr>
+                    <tr>
+                        <th>Binary</th>
+                        <td>0000</td><td>0001</td><td>0010</td><td>0011</td><td>0100</td><td>0101</td><td>0110</td><td>0111</td>
+                        <td>1000</td><td>1001</td><td>1010</td><td>1011</td><td>1100</td><td>1101</td><td>1110</td><td>1111</td>
+                    </tr>
+                </table>
+                
+                <h3>2.3 Boolean Logic</h3>
+                
+                <h4>Truth Tables</h4>
+                <div class="concept-box">
+                    <p>Truth tables show all possible input combinations and their corresponding outputs for logical expressions.</p>
+                </div>
+                
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Basic Gates</h4>
+                        <ul>
+                            <li><strong>AND:</strong> Output true only if all inputs true</li>
+                            <li><strong>OR:</strong> Output true if any input true</li>
+                            <li><strong>NOT:</strong> Inverts the input</li>
+                            <li><strong>XOR:</strong> Output true if inputs differ</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>XOR Truth Table</h4>
+                        <table style="width: 100%;">
+                            <tr><th>A</th><th>B</th><th>A XOR B</th></tr>
+                            <tr><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>0</td><td>1</td><td>1</td></tr>
+                            <tr><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>1</td><td>0</td></tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <h2>3. Networks</h2>
+                
+                <h3>3.1 Network Types</h3>
+                
+                <h4>Wireless vs Ethernet</h4>
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Wireless Networks</h4>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Ease of use for mobile users</li>
+                            <li>Work in many locations</li>
+                            <li>No cables needed</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Security issues (easily intercepted)</li>
+                            <li>Depends on signal strength/distance</li>
+                            <li>Affected by interference</li>
+                            <li>Topology/shape of surroundings matters</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Ethernet (Wired)</h4>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>More reliable signal</li>
+                            <li>Independent of distance (within limits)</li>
+                            <li>Not affected by topology/walls</li>
+                            <li>More secure</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Less mobile</li>
+                            <li>Cables can be damaged</li>
+                            <li>Depends on cable condition</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>3.2 Virtual Private Networks (VPN)</h3>
+                <div class="concept-box">
+                    <h4>Key Features of VPNs</h4>
+                    <ul>
+                        <li><strong>Encryption:</strong> Data intercepted will not be readable</li>
+                        <li><strong>Authentication:</strong> Prevents attackers from weakening/changing encryption</li>
+                        <li><strong>Tunnelling:</strong> Secure connection between two endpoints</li>
+                        <li><strong>Multiple exit nodes:</strong> Hard to distinguish origin of data</li>
+                    </ul>
+                    <p><strong>Technologies:</strong> SSL 3.0, TLS (Transport Layer Security), IPsec</p>
+                </div>
+                
+                <h3>3.3 Protocols</h3>
+                <div class="key-term">
+                    <strong>Purpose of Protocols:</strong>
+                    <ul>
+                        <li>Sets of rules for transmitting data correctly</li>
+                        <li>Ensure data sent from one computer is received by another</li>
+                        <li>Create secure transmissions (HTTPS, TLS, SSL)</li>
+                        <li>Standardize communication between different systems</li>
+                    </ul>
+                </div>
+                
+                <h2>4. Programming & Development</h2>
+                
+                <h3>4.1 Language Features</h3>
+                
+                <h4>Why Consistent Grammar & Syntax Matter</h4>
+                <div class="concept-box">
+                    <ul>
+                        <li>Easy to learn/use - saves time</li>
+                        <li>Fewer compilation errors</li>
+                        <li>Fewer logical errors</li>
+                        <li>Faster software creation</li>
+                        <li>Future maintenance possible by other programmers</li>
+                    </ul>
+                </div>
+                
+                <h4>IDE Features</h4>
+                <div class="key-term">
+                    <strong>User Interface Features:</strong>
+                    <ul>
+                        <li>GUI (Graphical User Interface)</li>
+                        <li>Toolbars and menus</li>
+                        <li>Built-in commands for various inputs</li>
+                        <li>Autocomplete/predicted text</li>
+                        <li>Syntax highlighting (colors for keywords/variables)</li>
+                    </ul>
+                </div>
+                
+                <h3>4.2 Compilation & Interpretation</h3>
+                
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Compiler</h4>
+                        <ul>
+                            <li>Translates entire program at once</li>
+                            <li>Creates executable file</li>
+                            <li>Faster execution after compilation</li>
+                            <li>Good for final production</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Interpreter</h4>
+                        <ul>
+                            <li>Translates line by line</li>
+                            <li>Immediately warns of syntax errors</li>
+                            <li>Better for debugging</li>
+                            <li>No executable created</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h4>Why Translation is Needed</h4>
+                    <p>High-level languages must be translated because:</p>
+                    <ul>
+                        <li>Humans understand high-level code, machines don't</li>
+                        <li>Must be converted to machine code</li>
+                        <li>CPU can only execute machine code instructions</li>
+                    </ul>
+                </div>
+                
+                <h3>4.3 Predefined Sub-programs</h3>
+                <div class="key-term">
+                    <strong>Benefits:</strong>
+                    <ul>
+                        <li><strong>Reusability:</strong> Use same code in multiple programs</li>
+                        <li><strong>Modularity:</strong> Break programs into manageable pieces</li>
+                        <li><strong>Reliability:</strong> Tested and verified code</li>
+                        <li><strong>Time/Cost saving:</strong> Don't reinvent the wheel</li>
+                    </ul>
+                </div>
+                
+                <h2>5. Data Security & Ethics</h2>
+                
+                <h3>5.1 Data Security</h3>
+                
+                <h4>Sources of Risk</h4>
+                <div class="concept-box">
+                    <ul>
+                        <li><strong>Storage:</strong> Data at risk while stored on disks/servers</li>
+                        <li><strong>Transmission:</strong> Data at risk during transfer over networks</li>
+                        <li><strong>Access:</strong> Unauthorized users gaining entry</li>
+                        <li><strong>Hacking:</strong> External attacks on systems</li>
+                    </ul>
+                </div>
+                
+                <h4>Security Measures</h4>
+                <div class="key-term">
+                    <strong>Protective Measures:</strong>
+                    <ul>
+                        <li>Encrypt all private information</li>
+                        <li>Protect transmission channels with encryption</li>
+                        <li>Secure login systems (authentication)</li>
+                        <li>Dual data backup systems</li>
+                        <li>Regular security audits</li>
+                        <li>Access controls and permissions</li>
+                    </ul>
+                </div>
+                
+                <h4>Consequences of Data Breaches</h4>
+                <div class="concept-box">
+                    <ul>
+                        <li><strong>Identity theft:</strong> Personal details stolen and used fraudulently</li>
+                        <li><strong>Financial fraud:</strong> Credit card details used for unauthorized purchases</li>
+                        <li><strong>Spam/phishing:</strong> Contact details shared and used for junk mail</li>
+                        <li><strong>Reputation damage:</strong> Loss of trust in organization</li>
+                    </ul>
+                </div>
+                
+                <h3>5.2 Ethical Issues</h3>
+                
+                <h4>Internet Data Usage</h4>
+                <div class="key-term">
+                    <strong>Key Ethical Concerns:</strong>
+                    <ul>
+                        <li><strong>Accuracy:</strong> Data/information may be deliberately incorrect or not validated</li>
+                        <li><strong>Intellectual Property:</strong> Copyright and ownership issues</li>
+                        <li><strong>Plagiarism:</strong> Using others' work without attribution</li>
+                        <li><strong>Credibility:</strong> Difficulty verifying source reliability</li>
+                    </ul>
+                </div>
+                
+                <h4>External Services (Cloud, Social Media)</h4>
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>More recent technology</li>
+                            <li>Social collaboration aspects</li>
+                            <li>Easy/cheap/free access</li>
+                            <li>Access from any device/location</li>
+                            <li>Interaction and sharing</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Disadvantages</h4>
+                        <ul>
+                            <li>Permanence - hard to delete</li>
+                            <li>Available worldwide</li>
+                            <li>May violate internal policies</li>
+                            <li>Security - can be hacked</li>
+                            <li>Ownership/control issues</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h2>6. System Design</h2>
+                
+                <h3>6.1 System Analysis</h3>
+                
+                <h4>Direct Observation</h4>
+                <div class="concept-box">
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li>Quick/first-hand/realistic information about current system</li>
+                        <li>Better understand positive and negative features</li>
+                        <li>Can use findings to specify requirements for new system</li>
+                        <li>Identifies actual user workflows and problems</li>
+                    </ul>
+                </div>
+                
+                <h4>Data Considerations</h4>
+                <div class="key-term">
+                    <strong>Aspects to Consider:</strong>
+                    <ul>
+                        <li><strong>Access type:</strong> Read-only, read-write, online, offline</li>
+                        <li><strong>Access rights:</strong> Who can access what data</li>
+                        <li><strong>Frequency:</strong> How often is data accessed</li>
+                        <li><strong>Quantity/size:</strong> Storage capacity requirements</li>
+                        <li><strong>Type/format:</strong> Compatibility with new system</li>
+                    </ul>
+                </div>
+                
+                <h3>6.2 Failover Systems</h3>
+                <div class="concept-box">
+                    <h4>What is a Failover System?</h4>
+                    <p>A standby/redundant system that automatically takes over if the primary system becomes unavailable, eliminating or reducing impact on users/owners.</p>
+                    <p><strong>Purpose:</strong> Ensure continuous operation and minimize downtime</p>
+                </div>
+                
+                <h2>7. Documentation</h2>
+                
+                <h3>7.1 Printed vs Online Documentation</h3>
+                
+                <div class="comparison-table">
+                    <div class="comparison-card">
+                        <h4>Printed Documentation</h4>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Portable - easy to move around</li>
+                            <li>More detailed explanations</li>
+                            <li>Always available (no power issues)</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Can't magnify font size</li>
+                            <li>Slower to navigate (no search)</li>
+                            <li>Less frequently updated</li>
+                            <li>Environmental cost</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Online Documentation</h4>
+                        <p><strong>Advantages:</strong></p>
+                        <ul>
+                            <li>Adjustable font size</li>
+                            <li>Fast searching and cross-references</li>
+                            <li>More frequently updated</li>
+                            <li>Less paper waste</li>
+                        </ul>
+                        <p><strong>Disadvantages:</strong></p>
+                        <ul>
+                            <li>Requires power/device</li>
+                            <li>May be less detailed</li>
+                            <li>Depends on internet connection</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>7.2 User Documentation Methods</h3>
+                <div class="key-term">
+                    <ul>
+                        <li>Help files (built into software)</li>
+                        <li>Online support (websites, forums)</li>
+                        <li>Video tutorials</li>
+                        <li>Printed manuals</li>
+                        <li>Context-sensitive help</li>
+                    </ul>
+                </div>
+                
+                <h2>8. Quick Reference Tables</h2>
+                
+                <h3>Common Pseudocode Operations</h3>
+                <table>
+                    <tr>
+                        <th>Operation</th>
+                        <th>Syntax</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td>Input</td>
+                        <td>variable = input()</td>
+                        <td>X = input("Enter number")</td>
+                    </tr>
+                    <tr>
+                        <td>Output</td>
+                        <td>output(value)</td>
+                        <td>output(X)</td>
+                    </tr>
+                    <tr>
+                        <td>Assignment</td>
+                        <td>variable = value</td>
+                        <td>COUNT = 0</td>
+                    </tr>
+                    <tr>
+                        <td>If statement</td>
+                        <td>if condition then ... end if</td>
+                        <td>if X > 0 then ...</td>
+                    </tr>
+                    <tr>
+                        <td>Loop (while)</td>
+                        <td>loop while condition ... end loop</td>
+                        <td>loop while X < 10 ...</td>
+                    </tr>
+                    <tr>
+                        <td>Loop (for)</td>
+                        <td>loop K from start to end ... end loop</td>
+                        <td>loop K from 1 to 10 ...</td>
+                    </tr>
+                    <tr>
+                        <td>Integer division</td>
+                        <td>div</td>
+                        <td>15 div 4 = 3</td>
+                    </tr>
+                    <tr>
+                        <td>Modulo</td>
+                        <td>mod</td>
+                        <td>15 mod 4 = 3</td>
+                    </tr>
+                </table>
+                
+                <h3>Operating System Features for Gaming</h3>
+                <div class="key-term">
+                    <strong>Important OS Features:</strong>
+                    <ul>
+                        <li><strong>Memory management:</strong> Games use lots of memory and require constant refreshing</li>
+                        <li><strong>Processor loading:</strong> Efficient handling of CPU resources</li>
+                        <li><strong>Graphics handling:</strong> Support for graphics processing (beyond graphics card)</li>
+                        <li><strong>GUI:</strong> User interface for game interaction</li>
+                        <li><strong>Input handling:</strong> Support for various input devices (gamepad, keyboard, mouse)</li>
+                    </ul>
+                </div>
+            </div>
+            
             <!-- MAY 2016 EXAM -->
-            <div id="may2016" class="exam-section active">
+            <div id="may2016" class="exam-section">
                 <h2 style="color: #667eea; margin-bottom: 20px;">May 2016 Examination</h2>
                 
                 <!-- Question 11 -->
@@ -604,7 +1162,7 @@ output TEAM</pre>
                         <p>TIMING is initialized to zero before the race starts, and updated with the finishing times for each participant. The algorithm sum3best is able to output the sum of the three fastest times from any group of times that are passed to the algorithm.</p>
                         
                         <div class="sub-question">
-                            <strong>(d)</strong> Describe the steps of an algorithm that will find the winning team, as defined by the marathon rules on page 6. Clearly mention the use of existing or of new data structures. <span class="marks" style="font-size: 0.9em;">[6]</span>
+                            <strong>(d)</strong> Describe the steps of an algorithm that will find the winning team, as defined by the marathon rules. Clearly mention the use of existing or of new data structures. <span class="marks" style="font-size: 0.9em;">[6]</span>
                         </div>
                     </div>
                     
@@ -807,29 +1365,19 @@ winning team = BEST</pre>
                             
                             <div class="diagram">
                                 <p><strong>Expected System Flow Chart:</strong></p>
-                                <pre style="text-align: left;">
-┌──────────────────┐
-│    Barcodes      │ (Input)
-└────────┬─────────┘
-         │
-         ├─────────────────────────────┐
-         │                             │
-         ▼                             ▼
-┌─────────────────┐          ┌──────────────────────┐
-│    Database     │◄─────────┤    Processing        │
-│ (central        │          │   transactions       │
-│  computer)      │──────────►                      │
-└─────────────────┘          └──────────┬───────────┘
-                                        │
-                                        ├──────────────┐
-                                        │              │
-                                        ▼              ▼
-                             ┌──────────────────┐  ┌──────────────┐
-                             │ File (transactions)│  │  Printed     │
-                             │   (local disk)    │  │  receipts    │
-                             └──────────────────┘  └──────────────┘
-                                                      (Output)
-</pre>
+                                <p style="text-align: left; font-family: monospace; font-size: 0.9em;">
+                                    <strong>Input:</strong> Barcodes (parallelogram)<br><br>
+                                    ↓ (splits into two flows)<br><br>
+                                    <strong>Process:</strong> Processing transactions (rectangle) ←→ <strong>Storage:</strong> Database (central computer) (cylinder)<br><br>
+                                    ↓ (splits into two outputs)<br><br>
+                                    <strong>Storage:</strong> File (transactions) - local disk (cylinder) | <strong>Output:</strong> Printed receipts (parallelogram)
+                                </p>
+                                <p style="margin-top: 15px; text-align: left;">
+                                    <strong>Key elements:</strong><br>
+                                    • Input flows from Barcodes to both Database and Processing<br>
+                                    • Bidirectional arrows between Database and Processing<br>
+                                    • Output flows from Processing to both File and Printed receipts
+                                </p>
                             </div>
                             
                             <h4 style="margin-top: 20px;">(b) Other peripheral device [2 marks]</h4>
@@ -1146,7 +1694,7 @@ else
 end if
 output(COLOUR)</pre>
                             
-                            <p><em>Note: Accept correct responses that populate an array with 2400 elements, each with the correct colour, and then print the item held in the array. For answers that incorrectly use div rather than mod, allow at MOST one mark FT when returning a 'correct' calculated colour. Do not accept return. Do not accept use of mathematical symbols if not explained.</em></p>
+                            <p><em>Note: Accept correct responses that populate an array with 2400 elements, each with the correct colour, and then print the item held in the array. For answers that incorrectly use div rather than mod, allow at MOST one mark FT when returning a 'correct' calculated colour.</em></p>
                             
                             <h4 style="margin-top: 20px;">(c)(i) Student for locker 811 [1 mark]</h4>
                             <p><strong>Answer:</strong> Baber, Ivy</p>
@@ -1229,10 +1777,17 @@ output(COUNT)</pre>
         }
     </script>
 </body>
-</html>"""
+</html>
+"""
 
-# Save the file
-with open('/home/claude/ib_compsci_study_guide.html', 'w', encoding='utf-8') as f:
+# Write the file
+with open('/home/claude/ib_compsci_study_guide_complete.html', 'w', encoding='utf-8') as f:
     f.write(html_content)
 
-print("HTML file created successfully!")
+# Also copy to outputs directory
+bash('cp /home/claude/ib_compsci_study_guide_complete.html /mnt/user-data/outputs/')
+
+print("✅ Complete HTML file created successfully!")
+print("📄 File location: /home/claude/ib_compsci_study_guide_complete.html")
+print("📦 Also copied to outputs directory for download")
+
