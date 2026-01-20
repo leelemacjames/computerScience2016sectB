@@ -1,0 +1,1238 @@
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Computer Science Paper 1 - Section B Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .exam-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .exam-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .exam-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .exam-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .exam-section {
+            display: none;
+        }
+        
+        .exam-section.active {
+            display: block;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .marks {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .question-text {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .question-text p {
+            margin-bottom: 10px;
+        }
+        
+        .question-text ul, .question-text ol {
+            margin-left: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .sub-question {
+            margin-left: 20px;
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #ddd;
+        }
+        
+        .diagram {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .flowchart {
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .flowchart-box {
+            border: 2px solid #2c3e50;
+            padding: 10px 20px;
+            margin: 10px auto;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        
+        .flowchart-diamond {
+            border: 2px solid #2c3e50;
+            padding: 10px 20px;
+            margin: 10px auto;
+            display: inline-block;
+            transform: rotate(45deg);
+            position: relative;
+        }
+        
+        .flowchart-diamond-text {
+            transform: rotate(-45deg);
+        }
+        
+        .flowchart-parallelogram {
+            border: 2px solid #2c3e50;
+            padding: 10px 20px;
+            margin: 10px auto;
+            display: inline-block;
+            transform: skew(-20deg);
+        }
+        
+        .flowchart-parallelogram-text {
+            transform: skew(20deg);
+        }
+        
+        .flowchart-arrow {
+            margin: 5px 0;
+            font-size: 20px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .answer-section {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .answer-section.show {
+            display: block;
+        }
+        
+        .toggle-answer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-answer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .answer-content {
+            background: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .answer-content h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .answer-content ul, .answer-content ol {
+            margin-left: 25px;
+            line-height: 1.8;
+        }
+        
+        .answer-content li {
+            margin-bottom: 8px;
+        }
+        
+        .mark-allocation {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .exam-selector {
+                flex-direction: column;
+            }
+            
+            .exam-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IB Computer Science SL</h1>
+            <p>Paper 1 - Section B Study Guide</p>
+        </header>
+        
+        <div class="exam-selector">
+            <button class="exam-btn active" onclick="showExam('may2016')">May 2016</button>
+            <button class="exam-btn" onclick="showExam('nov2016')">November 2016</button>
+        </div>
+        
+        <div class="content">
+            <!-- MAY 2016 EXAM -->
+            <div id="may2016" class="exam-section active">
+                <h2 style="color: #667eea; margin-bottom: 20px;">May 2016 Examination</h2>
+                
+                <!-- Question 11 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 11</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>An examination office of a university must securely store students' examination papers and their grades. The office keeps the documentation of past students for two years. After two years the office only stores the student grades. All documentation of current students is frequently accessed for other operations and the volume of the data increases quickly.</p>
+                        <p>To better support its operations, the office is creating a new system to provide this storage.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> Identify <strong>two</strong> aspects of the data that need to be taken into account during the planning of the new system. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Describe how direct observations on the current system may provide information to help propose a suitable new system. <span class="marks" style="font-size: 0.9em;">[3]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">A prototype of the new system is created to present to the examination office.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(c)</strong> Describe the purpose of this prototype. <span class="marks" style="font-size: 0.9em;">[3]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">The examination office needs to upgrade the computing resources for their operations, and this will require data migration.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(d)</strong> Discuss <strong>two</strong> possible problems that may occur during data migration. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(e)</strong> Outline <strong>one</strong> economic aspect that the examination office needs to take into account to support parallel running. <span class="marks" style="font-size: 0.9em;">[3]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) Two aspects of data [2 marks]</h4>
+                            <p><strong>Possible aspects include:</strong></p>
+                            <ul>
+                                <li><strong>Type of access needed:</strong> Read only/read write/online or offline</li>
+                                <li><strong>Access rights:</strong> Data available only for administrators / different permissions for students</li>
+                                <li><strong>Frequency of access:</strong> Some data (non-current students) are not frequently accessed and can be archived; other data (current students) are frequently used</li>
+                                <li><strong>Quantity/size of the data:</strong> Should not exceed storage capacity of the new system</li>
+                                <li><strong>Type/nature/format:</strong> Incompatibility issues</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(b) Direct observations [3 marks]</h4>
+                            <ul>
+                                <li>Quick/first hand/realistic information on data/software/hardware/users/procedures in the current system</li>
+                                <li>Help better understand positive and negative features of the current system (e.g., problems in accessing or validating data/user errors/security issues)</li>
+                                <li>Which can be used when specifying requirements of the new system (keep/improve positive and change negative features)</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(c) Purpose of prototype [3 marks]</h4>
+                            <ul>
+                                <li>Prototype is used to ensure all essential functions/operations of the system are present/meets the needs of the users</li>
+                                <li>Prototype is used to speed up development process</li>
+                                <li>Positive user's feedback helps in refining the acceptable prototype in order to develop the complete system/product</li>
+                                <li>Or else a further prototype should be created in order to develop the satisfactory system/product</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d) Two problems during data migration [4 marks]</h4>
+                            <p><strong>Problem 1: Data loss/data corruption</strong></p>
+                            <ul>
+                                <li>When moving data from one storage device to another (via network/cables or transferred by people), data could be corrupted/lost and not useful anymore</li>
+                            </ul>
+                            <p><strong>Problem 2: Incompatibility of data formats</strong></p>
+                            <ul>
+                                <li>Necessary to translate from one format to another to be able to use the data in the new system, which causes delays/performance issues in business/office operation</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(e) Economic aspect of parallel running [3 marks]</h4>
+                            <p><strong>Example answer 1:</strong></p>
+                            <ul>
+                                <li>Two systems are running simultaneously so that operations are not disrupted</li>
+                                <li>This is a costly operation</li>
+                                <li>Because both systems and all their resources should be maintained / More staff should be hired</li>
+                            </ul>
+                            <p><strong>Example answer 2:</strong></p>
+                            <ul>
+                                <li>Safe way of validating the new system</li>
+                                <li>Running two systems could be cheaper</li>
+                                <li>Than losing all data in case of failure</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 12 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 12</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>A college has a high-speed network. The network is accessible to all students and staff through their personal accounts.</p>
+                        <p>The network may be accessed by using desktop computers available in the college. When in the college, users can also use personal laptops to connect wirelessly or dock with an Ethernet cable. When not in the college, users can connect via a virtual private network (VPN) over the internet.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> In the given context, distinguish between Ethernet and wireless in terms of <strong>reliability</strong> of transmission. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Describe <strong>two</strong> features of a VPN that make it secure. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(c)</strong> State <strong>one</strong> technology that is necessary for a VPN. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">The college is devising a policy for the use of its IT resources and services. They are considering prohibiting the use of external services such as cloud storage and blogs.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(d)</strong> In relation to the specific activities that may be carried out by students, discuss <strong>two</strong> advantages and <strong>two</strong> disadvantages of the use of external services. <span class="marks" style="font-size: 0.9em;">[6]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) Ethernet vs Wireless reliability [4 marks]</h4>
+                            <p><strong>WIRELESS:</strong></p>
+                            <ul>
+                                <li>The reliability of wireless depends on the strength of the wireless signal/distance from router</li>
+                                <li>On the topology/shape of the surroundings</li>
+                                <li>On interference/number of simultaneous connections on an access point</li>
+                            </ul>
+                            <p><strong>ETHERNET:</strong></p>
+                            <ul>
+                                <li>Ethernet is more reliable as the strength of the signal is independent from the distance from the router (within the college)</li>
+                                <li>There is no issue with the topology/shape of the surrounding, as long as the user has a connection</li>
+                                <li>Connection depends on condition of cables – no loose or broken cable connections</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(b) Two features of VPN security [4 marks]</h4>
+                            <ul>
+                                <li><strong>Authentication:</strong> Nobody outside the VPN should be able to affect the security property of the VPN (it must be impossible for the attacker to weaken/change encryption)</li>
+                                <li><strong>Encryption:</strong> Data intercepted will not be readable</li>
+                                <li><strong>Tunnelling software:</strong> Security properties of each tunnel should be agreed by the administrators of the two endpoints of the tunnel</li>
+                                <li><strong>Multiple exit nodes:</strong> Makes it hard to distinguish where the data was generated thus more secure (less prone to phishing)</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(c) One technology for VPN [1 mark]</h4>
+                            <ul>
+                                <li>SSL 3.0 (Secure socket layer 3)</li>
+                                <li>TLS (with encryption) (Transport Layer Security)</li>
+                                <li>IPsec with encryption</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d) External services advantages and disadvantages [6 marks]</h4>
+                            <p><strong>Advantages may include:</strong></p>
+                            <ul>
+                                <li><strong>More recent technology:</strong> May offer more recent technology than the college itself</li>
+                                <li><strong>Social aspects:</strong> The college cannot replicate the social aspects of diffused discussion/social networking</li>
+                                <li><strong>Easy access:</strong> Registration/creation/access of account is usually easy/cheap/free</li>
+                                <li><strong>Collaboration:</strong> Allows interaction with others/collaborative studies/exchange of materials/opinions</li>
+                                <li><strong>Accessibility:</strong> Students can access and coordinate data and assignments on any device and from any location</li>
+                            </ul>
+                            
+                            <p><strong>Disadvantages may include:</strong></p>
+                            <ul>
+                                <li><strong>Permanence:</strong> One might post things they would regret later on; the content is potentially available across the world; the content is available for a long time</li>
+                                <li><strong>Policy compliance:</strong> The content submitted to external services might not be fully in line with the internal policy, even if posting it is allowed (offensive content)</li>
+                                <li><strong>Security:</strong> Photos/documents may be hacked by third parties</li>
+                                <li><strong>Examples:</strong> Posting offensive comments; ownership/confidentiality/security of data; takedown policy from external providers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 13 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 13</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>A local charity organizes a half-marathon to raise money. The rules to participate in the half-marathon are as follows:</p>
+                        <ul>
+                            <li>The organizers limit the total number of participants to 450</li>
+                            <li>Participants belong to a team and each team must have at least three and at most five participants</li>
+                            <li>Each participant registers for the event independently from the other members of their team, and they all declare their team name when registering</li>
+                            <li>For scoring, the team's final time is the sum of the times of its three fastest participants. Participants that do not cross the finishing line within 2 hours after the start, are assigned a default time of 1000 minutes. The <strong>winning team</strong> is the team with the smallest sum total.</li>
+                        </ul>
+                        
+                        <p>During registration, an array, PARTICIPANTS, with 450 positions is used to hold the abbreviated team names that are declared by each participant. Simultaneously, a collection TNAMES is generated: any new team name that is declared is added to the collection.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> State the minimum size of TNAMES to ensure the names of all potential teams can be stored. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Part of the array PARTICIPANTS is shown below, where, for example, the first participant declared that they are part of team TK. The initial part of the collection TNAMES is also shown, with arrows indicating the direction of growth.</p>
+                        
+                        <div class="table-container">
+                            <p><strong>PARTICIPANTS</strong></p>
+                            <table>
+                                <tr>
+                                    <th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th><th>[11]</th><th>[12]</th><th>[13]</th><th>[14]</th><th>...</th>
+                                </tr>
+                                <tr>
+                                    <td>TK</td><td>W</td><td>AC</td><td>TK</td><td>W</td><td>TK</td><td>AC</td><td>W</td><td>TK</td><td>TK</td><td>AC</td><td>QA</td><td>AC</td><td>W</td><td>AC</td><td>...</td>
+                                </tr>
+                            </table>
+                            
+                            <p><strong>TNAMES</strong></p>
+                            <p>TK ← W ← AC ← QA ← ...</p>
+                        </div>
+                        
+                        <p>Both PARTICIPANTS and TNAMES are used to construct the array, TEAM, that groups all participants who belong to the same team. Part of the array TEAM is shown below.</p>
+                        
+                        <div class="table-container">
+                            <p><strong>TEAM</strong></p>
+                            <table>
+                                <tr>
+                                    <th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th><th>[11]</th><th>[12]</th><th>[13]</th><th>[14]</th><th>...</th>
+                                </tr>
+                                <tr>
+                                    <td>3</td><td>4</td><td>6</td><td>5</td><td>7</td><td>8</td><td>10</td><td>13</td><td>9</td><td>0</td><td>12</td><td>73</td><td>14</td><td>15</td><td>2</td><td>...</td>
+                                </tr>
+                            </table>
+                            <p style="margin-top: 10px; font-size: 0.95em;">In TEAM, each element is related to one other index in the array (shown by arrows in the original). This relation will eventually form a closed path (for this example 0, 3, 5, 8, 9 and back to 0). The relation reflects the information in PARTICIPANTS, by grouping people who declared the same team name during registration.</p>
+                            <p style="font-size: 0.95em;">Hence, participants 0, 3, 5, 8 and 9 are on the same team and, from PARTICIPANTS, that team is TK.</p>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Identify the position in PARTICIPANTS of the second participant that registered for team QA. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Part of the algorithm that generates the TEAM array is shown below, in pseudocode.</p>
+                        
+                        <pre>
+//Input PARTICIPANTS array, TNAMES collection
+TEAM        // array with 450 positions, initialized to '999'
+CURRENT     // variable to store current name of team;
+T, P        // variables to store the indexes of TEAM and PARTICIPANTS,
+            // respectively;
+MINP        // stores the first index P of members of the CURRENT team;
+
+TNAMES.resetNext()
+loop while TNAMES.hasNext()
+    CURRENT = TNAME.getNext()
+    T = 0; P = 0; MINP = 0    // variables' initialization
+    //*
+    //* Code to be completed in part (c)(i)
+    //*
+    //* Code to be completed in part (c)(ii)
+    //*
+end loop
+output TEAM</pre>
+                        
+                        <div class="sub-question">
+                            <strong>(c)</strong> In order to complete this code, and return the correct TEAM array,
+                            <div style="margin-left: 20px; margin-top: 10px;">
+                                <strong>(i)</strong> construct pseudocode to find MINP, the first index in PARTICIPANTS of the CURRENT team, and use it to start the construction of TEAM <span class="marks" style="font-size: 0.9em;">[3]</span>
+                            </div>
+                            <div style="margin-left: 20px; margin-top: 10px;">
+                                <strong>(ii)</strong> construct pseudocode to find the other participants belonging to the CURRENT team, implementing the idea of the closed paths in the TEAM array. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">As part of the program to determine the winning team, an array, TIMING, is maintained in parallel to PARTICIPANTS. For example, TIMING[5] and PARTICIPANTS[5] relate to the same participant.</p>
+                        
+                        <p>TIMING is initialized to zero before the race starts, and updated with the finishing times for each participant. The algorithm sum3best is able to output the sum of the three fastest times from any group of times that are passed to the algorithm.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(d)</strong> Describe the steps of an algorithm that will find the winning team, as defined by the marathon rules on page 6. Clearly mention the use of existing or of new data structures. <span class="marks" style="font-size: 0.9em;">[6]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) Minimum size of TNAMES [1 mark]</h4>
+                            <p><strong>Answer:</strong> 150</p>
+                            <p><em>Explanation: 450 participants ÷ 3 (minimum team size) = 150 teams maximum</em></p>
+                            
+                            <h4 style="margin-top: 20px;">(b) Second participant for team QA [1 mark]</h4>
+                            <p><strong>Answer:</strong> 73</p>
+                            <p><em>Note: Accept PARTICIPANTS[73]. Do not accept TEAM[11] because the question asks specifically for the array PARTICIPANTS.</em></p>
+                            
+                            <h4 style="margin-top: 20px;">(c)(i) Pseudocode to find MINP [3 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for looping through PARTICIPANT</li>
+                                    <li>[1] for checking PARTICIPANT[P] = CURRENT</li>
+                                    <li>[1] for exit when MINP found – accept 'break'</li>
+                                    <li>[1] for storing the index in MINP</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Example 1:</strong></p>
+                            <pre>
+loop while PARTICIPANTS[P] ≠ CURRENT AND P<450 
+    P = P+1
+endloop
+MINP = P
+T = MINP</pre>
+                            
+                            <p><strong>Example 2:</strong></p>
+                            <pre>
+boolean FOUND = FALSE
+loop while FOUND = FALSE and P < 450
+    if PARTICIPANTS[P] = CURRENT then
+        FOUND = TRUE
+        MINP = P
+    else
+        P = P + 1
+    end if
+end loop</pre>
+                            
+                            <p><strong>Example 3:</strong></p>
+                            <pre>
+boolean FOUND = FALSE
+loop P from 0 to 450-1
+    if PARTICIPANTS[P] = CURRENT then
+        FOUND = TRUE
+        MINP = P
+        BREAK
+    end if
+end loop</pre>
+                            
+                            <h4 style="margin-top: 20px;">(c)(ii) Pseudocode for closed paths [4 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for a correct loop from P to 449</li>
+                                    <li>[1] for starting at T=MINP</li>
+                                    <li>[1] for updating T index</li>
+                                    <li>[1] for correct value of P in TEAM[T]</li>
+                                    <li>[1] for closing the path by assigning MINP</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Example 1:</strong></p>
+                            <pre>
+T = MINP // can be here or in c(i)
+loop while P<450
+    if PARTICIPANTS[P] = CURRENT then
+        TEAM[T] = P
+        T = P
+    end if
+    P = P+1
+end loop 
+TEAM[T] = MINP</pre>
+                            
+                            <p><strong>Example 2:</strong></p>
+                            <pre>
+loop while P<450
+    if PARTICIPANTS[P] ≠ CURRENT then 
+        P = P+1
+    else
+        TEAM[T] = P
+        T = P
+        P = P+1
+    end if
+end loop
+TEAM[T] = MINP</pre>
+                            
+                            <h4 style="margin-top: 20px;">(d) Algorithm to find winning team [6 marks]</h4>
+                            <p><strong>Key points to cover:</strong></p>
+                            <ul>
+                                <li>Describe and use new data structures/variables</li>
+                                <li>Loop through TNAMES for each team</li>
+                                <li>Retrieve/access TIMINGS for the times of each member from TEAM</li>
+                                <li>(Store in array or list)</li>
+                                <li>Pass team member times to sum3best</li>
+                                <li>Store result of sum3best for team in array or variable</li>
+                                <li>Identify winning team</li>
+                            </ul>
+                            
+                            <p><strong>Example 1:</strong></p>
+                            <pre>
+Create array TEAMTIMES with same length as TNAMES
+Create array TEMPTIMES with length 5 (max number of participants per team)
+For each team in TNAMES
+    For each team member in TEAM find the corresponding time in TIMING
+        Insert the time into the next element of TEMPTIMES 
+        (assumption: times over 120 min have already been assigned a time of 1000)
+    End loop
+    Pass TEMPTIMES to function sum3best
+    Insert result of sum3best into TEAMTIMES at same position as current element of TNAMES
+End loop
+Find smallest value in TEAMTIMES
+Set TEAM = TNAMES[index of smallest value in TEAMTIMES]</pre>
+                            
+                            <p><strong>Example 2:</strong></p>
+                            <pre>
+Create array TTIMES max 5 to hold times in one team
+Create FASTEST to hold time of winning team
+Create BEST to hold name of winning team
+Set FASTEST = 5000 (default time for 5 team members or something)
+For each team in TNAMES
+    use PARTICIPANTS and TEAM to find index for each member in TIMINGS
+    store in TTIMES array of max 5
+    Pass array TTIMES to sum3best and store in SUM
+    If SUM < FASTEST set FASTEST to SUM and set BEST to TNAME
+End loop
+winning team = BEST</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- NOVEMBER 2016 EXAM -->
+            <div id="nov2016" class="exam-section">
+                <h2 style="color: #667eea; margin-bottom: 20px;">November 2016 Examination</h2>
+                
+                <!-- Question 8 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 8</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>A book shop has a computer at each point of sale, and also a central computer.</p>
+                        <p>When a customer buys a book in the book shop, the salesperson at the point of sale uses a scanning device to input a barcode from the book.</p>
+                        <p>The barcode is sent to the central computer where the barcode of each book and the corresponding price are held in a database on a disk.</p>
+                        <p>When the price is found, it is sent to the point of sale computer where all necessary calculations are performed, details of the transaction are stored on a local disk and a receipt is printed out.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> Construct a system flow chart for the system described above. <span class="marks" style="font-size: 0.9em;">[5]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">At the point of sale there are peripheral devices other than the scanning device and printer.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Outline the purpose of <strong>one</strong> other possible peripheral device in this scenario. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">The customers can also buy books online. A customer can select a book, and then enter their name, address and credit card number. This data is stored on the book shop's central computer in a database of customer orders.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(c)</strong> Outline the purpose of protocols in transferring this data. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(d) (i)</strong> Identify <strong>two</strong> sources of risk to personal data in this online system. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(d) (ii)</strong> State <strong>two</strong> measures that the book shop can take to address the risks identified in part (d)(i). <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(d) (iii)</strong> Outline the consequences to the customer if their data is not adequately protected. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) System flow chart [5 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for all correct labels or symbols (Accept meaningful, consistent symbols)</li>
+                                    <li>[1] for correct input flow</li>
+                                    <li>[1] for correct output flow</li>
+                                    <li>[1] for correct internal processes</li>
+                                    <li>[1] for correct dataflow</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="diagram">
+                                <p><strong>Expected System Flow Chart:</strong></p>
+                                <pre style="text-align: left;">
+┌──────────────────┐
+│    Barcodes      │ (Input)
+└────────┬─────────┘
+         │
+         ├─────────────────────────────┐
+         │                             │
+         ▼                             ▼
+┌─────────────────┐          ┌──────────────────────┐
+│    Database     │◄─────────┤    Processing        │
+│ (central        │          │   transactions       │
+│  computer)      │──────────►                      │
+└─────────────────┘          └──────────┬───────────┘
+                                        │
+                                        ├──────────────┐
+                                        │              │
+                                        ▼              ▼
+                             ┌──────────────────┐  ┌──────────────┐
+                             │ File (transactions)│  │  Printed     │
+                             │   (local disk)    │  │  receipts    │
+                             └──────────────────┘  └──────────────┘
+                                                      (Output)
+</pre>
+                            </div>
+                            
+                            <h4 style="margin-top: 20px;">(b) Other peripheral device [2 marks]</h4>
+                            <p><strong>Example answers:</strong></p>
+                            <ul>
+                                <li><strong>Keyboard:</strong> To type in some additional data / Or to type in barcode data when it is not possible to scan</li>
+                                <li><strong>Magnetic card reader:</strong> Used when a credit card is used</li>
+                                <li><strong>Microphone:</strong> To call the next customer / To call manager</li>
+                                <li><strong>Monitor:</strong> So the salesman can see the information/data on the screen</li>
+                                <li><strong>Visual display:</strong> So the customer can read the information/data on the display</li>
+                                <li><strong>Speakers:</strong> For customers to hear information / For shop assistants to bring another item the customer may wish to buy</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(c) Purpose of protocols [2 marks]</h4>
+                            <ul>
+                                <li>Protocols are sets of rules for transmitting data correctly</li>
+                                <li>They ensure that data is sent from a customer's computer and received by the shop's computer</li>
+                                <li>To create a secure transmission of data from the client to the server through the use of the Hypertext Transfer Protocol (HTTPS) ie the customer can pay for the books securely (using TLS or SSL)</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d)(i) Two sources of risk [2 marks]</h4>
+                            <ul>
+                                <li>Data can be at risk whilst stored on the shop's disk</li>
+                                <li>Data can be at risk during transmission</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d)(ii) Two measures to address risks [2 marks]</h4>
+                            <ul>
+                                <li>All private information must be encrypted</li>
+                                <li>Transmission channel must be protected by encryption</li>
+                                <li>Logging on to the system must be secured (to prevent intruders)</li>
+                                <li>Dual data back-up system in case of accidental deletion</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d)(iii) Consequences to customer [2 marks]</h4>
+                            <ul>
+                                <li><strong>Details stolen:</strong> Used for fraudulent purposes</li>
+                                <li><strong>Contact details could be shared:</strong> Used for junk mail/fraud</li>
+                                <li><strong>Personal details stolen:</strong> For identity theft</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 9 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 9</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>A new higher level programming language is being developed.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> Identify <strong>two</strong> reasons why consistent grammar and syntax should be essential features of a higher level programming language. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Identify <strong>two</strong> features of a user interface that will allow application programmers to interact more easily with the programming language. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(c)</strong> State <strong>one</strong> method of providing user documentation. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Application programmers who use this programming language will be able to choose to use either an interpreter or a compiler.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(d) (i)</strong> Outline the need for an interpreter or a compiler. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(d) (ii)</strong> Describe <strong>one</strong> advantage to application programmers of having both an interpreter and a compiler available. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">One of the predefined sub-programs in the new language is <code>sumOdd()</code>. It accepts an integer N as input. If N≤0 it outputs -1, otherwise it outputs the sum of the first N odd numbers.</p>
+                        
+                        <p>For example:</p>
+                        <ul>
+                            <li><code>sumOdd(4)</code> outputs 16, because 4 is not less than 0, and 1 + 3 + 5 + 7 = 16.</li>
+                            <li><code>sumOdd(−3)</code> outputs −1, because −3 is less than 0.</li>
+                        </ul>
+                        
+                        <div class="sub-question">
+                            <strong>(e)</strong> Construct, in pseudocode, the algorithm for <code>sumOdd()</code>. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(f)</strong> Outline the need for predefined sub-programs and collections. <span class="marks" style="font-size: 0.9em;">[2]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) Two reasons for consistent grammar and syntax [2 marks]</h4>
+                            <ul>
+                                <li>Easy to learn/use; Otherwise time may be wasted learning the new language/writing programs in this HLL</li>
+                                <li>There will be no/less compilation errors</li>
+                                <li>There will be no/less logical errors</li>
+                                <li>(Reduction of time to create software)</li>
+                                <li>Future maintenance/development is possible by other programmers</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(b) Two features of user interface [2 marks]</h4>
+                            <ul>
+                                <li>GUI</li>
+                                <li>Toolbars</li>
+                                <li>Menus</li>
+                                <li>Built in commands for inputting from touch screens</li>
+                                <li>Predicted text so that typing a class name followed by a full stop will bring up a list of methods/attributes</li>
+                                <li>Automatically use a colour to represent keywords/variables and improve readability</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(c) One method of user documentation [1 mark]</h4>
+                            <ul>
+                                <li>Help files</li>
+                                <li>Online support</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d)(i) Need for interpreter or compiler [2 marks]</h4>
+                            <ul>
+                                <li>Must be translated from a higher level language understandable by humans/not understood by machines</li>
+                                <li>Must be translated into machine code</li>
+                                <li>For the CPU to execute it</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(d)(ii) Advantage of having both [2 marks]</h4>
+                            <ul>
+                                <li>Interpreter is faster/immediately warns about syntax errors/executes commands and they could use it instead of the compiler while coding and debugging their programs</li>
+                                <li>Compiler is required when there is a need to produce an executable version of a program</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">(e) Algorithm for sumOdd() [4 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for branch of if-then-else leading to correct computation of S=-1</li>
+                                    <li>[1] for the correct loop (boundaries)</li>
+                                    <li>[1] for correctly calculating the sum</li>
+                                    <li>[1] for the output</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Example algorithm 1:</strong></p>
+                            <pre>
+if N<=0 then
+    S=-1
+else
+    S=0
+    loop for K=1 to N
+        S=S+2*K-1
+    endloop
+end if
+output S</pre>
+                            
+                            <p><strong>Example algorithm 2:</strong></p>
+                            <pre>
+if N>0 then
+    S=0
+    loop for K=1 to 2*N
+        if K mod 2==1 then
+            S=S+K
+        end if
+    endloop
+else
+    S=-1
+end if
+output S</pre>
+                            
+                            <h4 style="margin-top: 20px;">(f) Need for predefined sub-programs [2 marks]</h4>
+                            <p><strong>Benefits include:</strong></p>
+                            <ul>
+                                <li><strong>Reusability:</strong> Predefined sub-programs and collections are reusable, and this reduces the cost/time needed to develop a large program</li>
+                                <li><strong>Modularity</strong></li>
+                                <li><strong>Reliability:</strong> All predefined sub-programs are tested and reliable</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Question 10 -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question 10</span>
+                        <span class="marks">Total: 15 marks</span>
+                    </div>
+                    <div class="question-text">
+                        <p>In a school there are 2400 students and each student uses one locker. Each locker has a unique number from 1 to 2400.</p>
+                        <p>The lockers are to be painted in four colours: red, white, yellow and blue, in order of locker numbers, as shown in the following table.</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <th>Locker Number</th>
+                                    <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>...</td><td>2399</td><td>2400</td>
+                                </tr>
+                                <tr>
+                                    <th>Colour</th>
+                                    <td>red</td><td>white</td><td>yellow</td><td>blue</td><td>red</td><td>white</td><td>yellow</td><td>blue</td><td>...</td><td>yellow</td><td>blue</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <p>The pattern of colours continues in this manner. For example, locker number 15 will be painted yellow.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(a)</strong> State the colour that locker number 442 will be painted. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Each student is responsible for painting his or her locker. Some students do not know how to determine the colour they should use.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(b)</strong> Construct, in pseudocode, an algorithm that accepts a locker number as input, and outputs the colour that this locker should be painted. <span class="marks" style="font-size: 0.9em;">[5]</span>
+                        </div>
+                        
+                        <p style="margin-top: 15px;">Three arrays are used to hold the following information:</p>
+                        <ul>
+                            <li>the names of students in alphabetical order, are held in the array <code>STUDENT_NAME[]</code>;</li>
+                            <li>the corresponding locker number is held in the array <code>LOCKER_NO[]</code>;</li>
+                            <li>whether the locker has been painted or not is held in the array <code>PAINTED[]</code>.</li>
+                        </ul>
+                        
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th>STUDENT_NAME[]</th>
+                                    <th>LOCKER_NO[]</th>
+                                    <th>PAINTED[]</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>[0]</strong></td>
+                                    <td>Abbatt, Robert</td>
+                                    <td>561</td>
+                                    <td>true</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>[1]</strong></td>
+                                    <td>Anner, Sarah</td>
+                                    <td>1256</td>
+                                    <td>false</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>[2]</strong></td>
+                                    <td>Baber, Ivy</td>
+                                    <td>811</td>
+                                    <td>false</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>...</strong></td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>[2399]</strong></td>
+                                    <td>Zyzz, Zyre</td>
+                                    <td>45</td>
+                                    <td>true</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <p>For example <code>STUDENT_NAME[1]</code> is Sarah Anner. She is responsible for locker number 1256 and this locker has not been painted yet.</p>
+                        
+                        <div class="sub-question">
+                            <strong>(c) (i)</strong> State the name of the student who is responsible for painting locker number 811. <span class="marks" style="font-size: 0.9em;">[1]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(c) (ii)</strong> Construct, in pseudocode, an algorithm that counts and outputs the number of lockers that have been painted so far. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                        
+                        <div class="sub-question">
+                            <strong>(d)</strong> Describe an efficient algorithm, which accepts a student's name as input, and outputs the corresponding locker number and whether or not it has been painted. <span class="marks" style="font-size: 0.9em;">[4]</span>
+                        </div>
+                    </div>
+                    
+                    <button class="toggle-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <h4>(a) Colour of locker 442 [1 mark]</h4>
+                            <p><strong>Answer:</strong> White</p>
+                            <p><em>Explanation: 442 MOD 4 = 2, which corresponds to white (1=red, 2=white, 3=yellow, 0=blue)</em></p>
+                            
+                            <h4 style="margin-top: 20px;">(b) Algorithm for colour determination [5 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for input and output</li>
+                                    <li>[1] for each correct if statement/colour calculated, up to [3 max]</li>
+                                    <li>[1] for using modulo arithmetic</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Example answer:</strong></p>
+                            <pre>
+X=input('Enter a locker number')
+if X MOD 4==1 then
+    COLOUR='red'
+else
+    if X MOD 4==2 then
+        COLOUR='white'
+    else
+        if X MOD 4==3 then
+            COLOUR='yellow'
+        else
+            COLOUR='blue'
+        end if
+    end if
+end if
+output(COLOUR)</pre>
+                            
+                            <p><em>Note: Accept correct responses that populate an array with 2400 elements, each with the correct colour, and then print the item held in the array. For answers that incorrectly use div rather than mod, allow at MOST one mark FT when returning a 'correct' calculated colour. Do not accept return. Do not accept use of mathematical symbols if not explained.</em></p>
+                            
+                            <h4 style="margin-top: 20px;">(c)(i) Student for locker 811 [1 mark]</h4>
+                            <p><strong>Answer:</strong> Baber, Ivy</p>
+                            
+                            <h4 style="margin-top: 20px;">(c)(ii) Algorithm to count painted lockers [4 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for initialization and use of variable (COUNT)</li>
+                                    <li>[1] for the correct loop</li>
+                                    <li>[1] for the correct if statement within the loop (accept "if PAINTED[K]")</li>
+                                    <li>[1] for correct COUNT and output</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Example answer:</strong></p>
+                            <pre>
+COUNT=0
+loop for K=0 to 2399
+    if PAINTED[K]== 'true' then
+        COUNT=COUNT+1
+    end if
+end loop
+output(COUNT)</pre>
+                            
+                            <h4 style="margin-top: 20px;">(d) Efficient algorithm for student lookup [4 marks]</h4>
+                            <div class="mark-allocation">
+                                <strong>Mark allocation:</strong>
+                                <ul>
+                                    <li>[1] for stating that the position of a given name should be found in array STUDENT_NAME[]</li>
+                                    <li>[1] for using this position to access the elements in the other two arrays</li>
+                                    <li>[1] for any named searching algorithm (linear or binary search)</li>
+                                    <li>[1] for explaining the efficiency – binary search used because STUDENT_NAME[] is sorted in alphabetical order</li>
+                                </ul>
+                            </div>
+                            
+                            <p><strong>Description:</strong></p>
+                            <ul>
+                                <li>First, find the position of the given student name in the STUDENT_NAME[] array</li>
+                                <li>Use this position/index to access the corresponding elements in LOCKER_NO[] and PAINTED[]</li>
+                                <li>Since STUDENT_NAME[] is sorted alphabetically, a <strong>binary search</strong> algorithm should be used for efficiency</li>
+                                <li>Binary search is more efficient than linear search because it has O(log n) complexity versus O(n) for linear search</li>
+                                <li>Once the index is found, output LOCKER_NO[index] and PAINTED[index]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showExam(examId) {
+            // Hide all exam sections
+            const sections = document.querySelectorAll('.exam-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected exam section
+            document.getElementById(examId).classList.add('active');
+            
+            // Update button states
+            const buttons = document.querySelectorAll('.exam-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Scroll to top of content
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function toggleAnswer(button) {
+            const answerSection = button.nextElementSibling;
+            
+            if (answerSection.classList.contains('show')) {
+                answerSection.classList.remove('show');
+                button.textContent = 'Show Answer';
+            } else {
+                answerSection.classList.add('show');
+                button.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</body>
+</html>"""
+
+# Save the file
+with open('/home/claude/ib_compsci_study_guide.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("HTML file created successfully!")
